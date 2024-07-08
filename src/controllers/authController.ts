@@ -17,7 +17,6 @@ export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = await login(email, password, res);
-    console.log(user);
     res.status(200).json({ message: 'User logged in successfully', user });
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
@@ -25,6 +24,6 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = (req: Request, res: Response) => {
-    res.clearCookie('token');
+    res.cookie('token', null, { httpOnly: true, expires: new Date(Date.now())});
     res.status(200).json({ message: 'Logout successful' });
 };
